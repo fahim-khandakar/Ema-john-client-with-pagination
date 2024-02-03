@@ -8,44 +8,45 @@ import Cart from "../Cart/Cart";
 import Product from "../Product/Product";
 import "./Shop.css";
 import { Link, useLoaderData } from "react-router-dom";
+import Pagination from "../../Pagination/Pagination";
 
 const Shop = () => {
   const [products, setProducts] = useState([]);
   // const cart = useLoaderData();
   const [cart, setCart] = useState([]);
-  const [currentPage, setCurrentPage] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
   const [itemPerPage, setItemPerPage] = useState(10);
   const [count, setCount] = useState(0);
   // const { count } = useLoaderData();
   // const count = 76;
-  const numberOfPages = Math.ceil(count / itemPerPage);
+  // const numberOfPages = Math.ceil(count / itemPerPage);
 
-  //   const pages = [];
-  //   for (let i = 0; i < numberOfPages; i++) {
-  //     pages.push(i);
+  // //   const pages = [];
+  // //   for (let i = 0; i < numberOfPages; i++) {
+  // //     pages.push(i);
+  // //   }
+
+  // const pages = [...Array(numberOfPages).keys()];
+
+  // const handleItemsPerPage = (e) => {
+  //   console.log(e.target.value);
+  //   const val = parseInt(e.target.value);
+  //   console.log(val);
+  //   setItemPerPage(val);
+  //   setCurrentPage(0);
+  // };
+
+  // const handlePrevPage = () => {
+  //   if (currentPage > 0) {
+  //     setCurrentPage(currentPage - 1);
   //   }
+  // };
 
-  const pages = [...Array(numberOfPages).keys()];
-
-  const handleItemsPerPage = (e) => {
-    console.log(e.target.value);
-    const val = parseInt(e.target.value);
-    console.log(val);
-    setItemPerPage(val);
-    setCurrentPage(0);
-  };
-
-  const handlePrevPage = () => {
-    if (currentPage > 0) {
-      setCurrentPage(currentPage - 1);
-    }
-  };
-
-  const handleNextPage = () => {
-    if (currentPage < pages.length - 1) {
-      setCurrentPage(currentPage + 1);
-    }
-  };
+  // const handleNextPage = () => {
+  //   if (currentPage < pages.length - 1) {
+  //     setCurrentPage(currentPage + 1);
+  //   }
+  // };
 
   useEffect(() => {
     fetch(
@@ -124,25 +125,12 @@ const Shop = () => {
           </Link>
         </Cart>
       </div>
-      <div className="pagination">
-        <p>{currentPage}</p>
-        <button onClick={handlePrevPage}>Prev</button>
-        {pages.map((page) => (
-          <button
-            className={currentPage === page ? "selected" : undefined}
-            onClick={() => setCurrentPage(page)}
-            key={page}
-          >
-            {page}
-          </button>
-        ))}
-        <button onClick={handleNextPage}>Next</button>
-        <select value={itemPerPage} onChange={handleItemsPerPage}>
-          <option value="10">10</option>
-          <option value="20">20</option>
-          <option value="50">50</option>
-        </select>
-      </div>
+      <Pagination
+        count={count}
+        currentPage={currentPage}
+        itemPerPage={itemPerPage}
+        setCurrentPage={setCurrentPage}
+      ></Pagination>
     </div>
   );
 };
